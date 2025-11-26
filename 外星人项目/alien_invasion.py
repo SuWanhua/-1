@@ -1,10 +1,7 @@
-#  -*- coding: utf-8 -*-
-#  alien_invasion.py  完整整合版（含外星人子弹 + 原功能标注）
 import sys, time, pygame
 from random import choice, randint           # 【新增 外星人子弹】
 from pygame.sprite import Sprite
 
-# -------------------- 通用工具 --------------------
 class Settings:
     def __init__(self):
         # 屏幕
@@ -46,7 +43,7 @@ class GameStats:
     def __init__(self, ai_game):
         self.settings = ai_game.settings
         self.reset_stats()
-        self.high_score = 0          # 永不重置
+        self.high_score = 0         # 永不重置
 
     def reset_stats(self):
         self.ships_left = self.settings.ship_limit
@@ -74,8 +71,6 @@ class Button:
     def draw_button(self):
         self.screen.fill(self.button_color, self.rect)
         self.screen.blit(self.msg_image, self.msg_image_rect)
-
-
 # -------------------- 飞船 --------------------
 class Ship(Sprite):
     def __init__(self, ai_game):
@@ -103,8 +98,6 @@ class Ship(Sprite):
 
     def blitme(self):
         self.screen.blit(self.image, self.rect)
-
-
 # -------------------- 子弹 --------------------
 class Bullet(Sprite):
     def __init__(self, ai_game):
@@ -123,8 +116,6 @@ class Bullet(Sprite):
 
     def draw_bullet(self):
         pygame.draw.rect(self.screen, self.color, self.rect)
-
-
 # -------------------- 外星人 --------------------
 class Alien(Sprite):
     def __init__(self, ai_game):
@@ -144,8 +135,6 @@ class Alien(Sprite):
     def update(self):
         self.x += self.settings.alien_speed * self.settings.fleet_direction
         self.rect.x = self.x
-
-
 # -------------------- 外星人子弹（新增）【新增 外星人子弹】 --------------------
 class AlienBullet(Sprite):                                              # 【新增 外星人子弹】
     def __init__(self, ai_game, alien):                                 # 【新增 外星人子弹】
@@ -167,8 +156,7 @@ class AlienBullet(Sprite):                                              # 【新
     def draw(self):                                                     # 【新增 外星人子弹】
         pygame.draw.rect(self.screen, self.color, self.rect)           # 【新增 外星人子弹】
 
-
-# -------------------- 爆炸（原标注保留） --------------------
+# -------------------- 爆炸 --------------------
 class Explosion(Sprite):  # 新增  爆炸
     def __init__(self, ai_game, center):  # 新增  爆炸
         super().__init__()  # 新增  爆炸
@@ -228,7 +216,6 @@ class ScoreFloat(Sprite):  # 新增 积分飞升
     def draw(self, surface=None):  # 新增 积分飞升
         surface = surface or self.screen  # 新增 积分飞升
         surface.blit(self.image, self.rect)  # 新增 积分飞升
-
 
 # -------------------- 记分牌 --------------------
 class Scoreboard:
@@ -376,7 +363,6 @@ class AlienInvasion:
             self.ship.moving_right = False
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = False
-
     # -------------------- 子弹 --------------------
     def _fire_bullet(self):
         if len(self.bullets) < self.settings.bullets_allowed:
@@ -462,19 +448,19 @@ class AlienInvasion:
             self.ship.center_ship()
             time.sleep(0.5)
         else:
-            self._show_final_score()     # 新增 显示总分 2 秒
+            self._show_final_score()     # 新增 显示总分 3 秒
             self.game_active = False
             pygame.mouse.set_visible(True)
 
-    # ---------- 新增：中央大字显示总分 2 秒 ----------
-    def _show_final_score(self):  # 新增 显示总分 2 秒
-        font = pygame.font.SysFont(None, 96)  # 新增 显示总分 2 秒
-        text = font.render(f"总分 = {self.stats.score:,}", True, (30, 30, 30))  # 新增 显示总分 2 秒
-        rect = text.get_rect(center=self.screen.get_rect().center)  # 新增 显示总分 2 秒
-        self.screen.fill(self.settings.bg_color)  # 新增 显示总分 2 秒
-        self.screen.blit(text, rect)  # 新增 显示总分 2 秒
-        pygame.display.flip()  # 新增 显示总分 2 秒
-        time.sleep(3)  # 新增 显示总分 2 秒
+    # ---------- 新增：中央大字显示总分 3 秒 ----------
+    def _show_final_score(self):  # 新增 显示总分3 秒
+        font = pygame.font.SysFont(None, 96)  # 新增 显示总分3秒
+        text = font.render(f"总分 = {self.stats.score:,}", True, (30, 30, 30))  # 新增 显示总分 3 秒
+        rect = text.get_rect(center=self.screen.get_rect().center)  # 新增 显示总分3秒
+        self.screen.fill(self.settings.bg_color)  # 新增 显示总分 3 秒
+        self.screen.blit(text, rect)  # 新增 显示总分 3 秒
+        pygame.display.flip()  # 新增 显示总分 3 秒
+        time.sleep(3)  # 新增 显示总分 3 秒
 
     # -------------------- 舰队 --------------------
     def _create_fleet(self):
